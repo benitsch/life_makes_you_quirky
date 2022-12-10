@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour
         if (_horizontalMovement > 0)
         {
             _spriteRenderer.flipX = false;
-        } else if (_horizontalMovement < 0)
+        } else if (_horizontalMovement < 0 || InvertedController == -1)
         {
             _spriteRenderer.flipX = true;
         }
@@ -100,13 +100,21 @@ public class PlayerController : MonoBehaviour
 
     private void PlayDirtParticle()
     {
-        if ((_horizontalMovement > 0.1f && InvertedController == 1) || (_horizontalMovement < -0.1f && InvertedController == -1))
+        if (IsOnGround())
         {
-            _left_particleSystem.Play();
-        }
-        else if((_horizontalMovement > 0.1f && InvertedController == -1) || (_horizontalMovement < -0.1f && InvertedController == 1))
-        {
-            _right_particleSystem.Play();
+            if ((_horizontalMovement > 0.1f && InvertedController == 1) || (_horizontalMovement < -0.1f && InvertedController == -1))
+            {
+                _left_particleSystem.Play();
+            }
+            else if((_horizontalMovement > 0.1f && InvertedController == -1) || (_horizontalMovement < -0.1f && InvertedController == 1))
+            {
+                _right_particleSystem.Play();
+            }
+            else
+            {
+                _left_particleSystem.Stop();
+                _right_particleSystem.Stop();
+            }
         }
         else
         {
