@@ -96,7 +96,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            _left_particleSystem.Stop();
+            //_left_particleSystem.Stop();
             _right_particleSystem.Stop();
         }
     }
