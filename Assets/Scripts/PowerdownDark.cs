@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -12,9 +12,14 @@ public class PowerdownDark : MonoBehaviour
     //[SerializeField] private TextMeshProUGUI _textMesh; // reference
     private TextMeshProUGUI _textMesh; // reference
 
+    // mesh animation
+    private Mesh _mesh;
+    private Vector3[] _meshVertices;
+
     // Start is called before the first frame update
     void Start()
     {
+        _text += $"\n{_heartValue} ♥";
         _textMesh = gameObject.GetComponentInChildren(typeof(TextMeshProUGUI)) as TextMeshProUGUI;
         _playerController = GameObject.Find("Player").GetComponent<PlayerController>();
         setText("");
@@ -24,6 +29,8 @@ public class PowerdownDark : MonoBehaviour
     void Update()
     {
         _pickupButtonPressed = Input.GetKey(KeyCode.E);
+        _textMesh.ForceMeshUpdate();
+        updateTextmesh();
     }
 
      // Player Collision CODE
@@ -67,6 +74,26 @@ public class PowerdownDark : MonoBehaviour
         //Debug.Log(other.name);
         if (!isPlayer(other.gameObject.name)) {return;}
         setText("");
+    }
+
+    void updateTextmesh()
+    {
+        if (_textMesh.text == "") { return; }
+        _mesh = _textMesh.mesh;
+        _meshVertices = _mesh.vertices;
+        string s = _textMesh.text;
+        for (int i = 0; i < _meshVertices.Length; i++)
+        {
+            Vector3 offset = Wobble(Time.time + i);
+            _meshVertices[i] = _meshVertices[i] + offset;
+        }
+        _mesh.vertices = _meshVertices;
+        _textMesh.canvasRenderer.SetMesh(_mesh);
+    }
+
+    Vector2 Wobble(float time)
+    {
+        return new Vector2(Mathf.Sin(time * 3.3f), Mathf.Cos(time * 2.5f));
     }
 
 }

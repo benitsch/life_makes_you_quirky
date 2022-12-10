@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class LevelTeleporter : MonoBehaviour
+public class DeathTriggerController : MonoBehaviour
 {
-    [SerializeField] string nextSceneName;
-
+    [SerializeField] string loadedLevelOnDeath;
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            SceneManager.LoadScene(nextSceneName);
+            SceneManager.LoadScene(loadedLevelOnDeath);
         }
     }
 }
