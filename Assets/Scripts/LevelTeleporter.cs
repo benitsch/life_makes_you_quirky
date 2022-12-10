@@ -9,6 +9,9 @@ public class LevelTeleporter : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        SceneManager.LoadScene(nextSceneName);
+        if (other.CompareTag("Player"))
+        {
+            SceneManager.LoadScene(nextSceneName);
+        }
     }
 }
