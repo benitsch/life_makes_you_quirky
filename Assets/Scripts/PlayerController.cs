@@ -145,7 +145,7 @@ public class PlayerController : MonoBehaviour
 
     private void PlayBarkSound()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R) && !_audioSource.isPlaying)
         {
             int idx = Random.Range(0, _barks.Length);
             _audioSource.PlayOneShot(_barks[idx]);
