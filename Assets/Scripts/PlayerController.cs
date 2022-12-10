@@ -24,6 +24,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _heartsText;
 
     private AudioSource _audioSource;
+    private AudioClip _currentBark;
+    private float _barkStartTime;
     [SerializeField] private AudioClip[] _barks;
     [SerializeField] private AudioClip _annoyingBackgroundMusic;
 
@@ -79,10 +81,11 @@ public class PlayerController : MonoBehaviour
 
     private void FlipSprite()
     {
-        if (_horizontalMovement > 0)
+        if ((_horizontalMovement > 0.1f && InvertedController == 1) || (_horizontalMovement < -0.1f && InvertedController == -1))
         {
             _spriteRenderer.flipX = false;
-        } else if (_horizontalMovement < 0 || InvertedController == -1)
+        }
+        else if ((_horizontalMovement > 0.1f && InvertedController == -1) || (_horizontalMovement < -0.1f && InvertedController == 1))
         {
             _spriteRenderer.flipX = true;
         }
@@ -145,11 +148,24 @@ public class PlayerController : MonoBehaviour
 
     private void PlayBarkSound()
     {
-        if (Input.GetKeyDown(KeyCode.R) && !_audioSource.isPlaying)
+        if (Input.GetKeyDown(KeyCode.R) && !IsBarkClipPlaying())
         {
             int idx = Random.Range(0, _barks.Length);
-            _audioSource.PlayOneShot(_barks[idx]);
+            _currentBark = _barks[idx];
+            _barkStartTime = Time.time;
+            _audioSource.PlayOneShot(_currentBark);
+
         }
+    }
+
+    public bool IsBarkClipPlaying()
+    {
+        if (_barkStartTime != 0 && _currentBark != null)
+        {
+            return !((Time.time - _barkStartTime) >= _currentBark.length);
+        }
+
+        return false;
     }
 
     public void PlayAnnoyingMusic()

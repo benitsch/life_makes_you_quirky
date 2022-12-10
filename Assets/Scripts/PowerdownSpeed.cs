@@ -9,8 +9,7 @@ public class PowerdownSpeed : MonoBehaviour
     [SerializeField] private string _text = "Speed";
     private bool _pickupButtonPressed; // 'E'
     private PlayerController _playerController;
-    //[SerializeField] private TextMeshProUGUI _textMesh; // reference
-    private TextMeshProUGUI _textMesh; // reference
+    private TextMeshProUGUI _textMesh;
 
     [SerializeField] private float _slowerPercentage = 0.5F;
 
@@ -18,67 +17,83 @@ public class PowerdownSpeed : MonoBehaviour
     private Mesh _mesh;
     private Vector3[] _meshVertices;
 
-    // Start is called before the first frame update
+    [SerializeField] private ParticleSystem _lightParticleSystem;
+    [SerializeField] private ParticleSystem _heartParticleSystem;
+
+    private bool _isPlayerHere = false;
+    private bool _isPowerdownTaken = false;
+
+    private AudioSource _audioSource;
+
     void Start()
     {
         _text += $"\n{_heartValue} ♥";
-        //_textMesh = GameObject.FindObjectOfType<TextMeshProUGUI>();
-        //_textMesh = ParentGameObject.transform.getChild(1);
         _textMesh = gameObject.GetComponentInChildren(typeof(TextMeshProUGUI)) as TextMeshProUGUI;
         _playerController = GameObject.Find("Player").GetComponent<PlayerController>();
         setText("");
+
+        _lightParticleSystem = _lightParticleSystem.GetComponent<ParticleSystem>();
+        _heartParticleSystem = _heartParticleSystem.GetComponent<ParticleSystem>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        _pickupButtonPressed = Input.GetKey(KeyCode.E);
         _textMesh.ForceMeshUpdate();
         updateTextmesh();
+        applyPowerdown();
     }
 
-    // Player Collision CODE
 
-    void OnTriggerEnter2D(Collider2D other)
+    bool isPlayer(string nameString)
     {
-        //Debug.Log(other.name);
-        if (!isPlayer(other.gameObject.name)) {return;}
-        setText(_text);
-
-    }
-
-    bool isPlayer(string nameString) {
         return (nameString == "Player");
     }
 
-    void OnTriggerStay2D(Collider2D other)
+    void OnTriggerEnter2D(Collider2D other)
     {
-        //Debug.Log("Hello");
-        if (!isPlayer(other.gameObject.name)) {return;}
-        applyPowerdown();
+        if (!isPlayer(other.gameObject.name)) { return; }
+        setText(_text);
+        _isPlayerHere = true;
 
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (!isPlayer(other.gameObject.name)) { return; }
+        setText("");
+        _isPlayerHere = false;
     }
 
     public void applyPowerdown()
     {
-        if (_pickupButtonPressed)
+        if (_isPowerdownTaken && _heartParticleSystem.particleCount == 0)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        if (!_isPlayerHere) return;
+
+        _pickupButtonPressed = Input.GetKey(KeyCode.E);
+
+        if (_pickupButtonPressed && !_isPowerdownTaken)
         {
             _playerController.Speed = (_playerController.Speed * _slowerPercentage);
             _playerController.AddHearts(_heartValue);
-            Destroy(gameObject);
+            _lightParticleSystem.Emit(1);
+            _lightParticleSystem.Play();
+            _heartParticleSystem.Emit(1);
+            _heartParticleSystem.Play();
+            _audioSource.Play();
+            _isPowerdownTaken = true;
         }
     }
 
     void setText(string txt)
     {
         _textMesh.SetText(txt);
-    }
-
-    void OnTriggerExit2D(Collider2D other)
-    {
-        //Debug.Log(other.name);
-        if (!isPlayer(other.gameObject.name)) {return;}
-        setText("");
     }
 
     void updateTextmesh()
@@ -100,5 +115,4 @@ public class PowerdownSpeed : MonoBehaviour
     {
         return new Vector2(Mathf.Sin(time * 3.3f), Mathf.Cos(time * 2.5f));
     }
-
 }
