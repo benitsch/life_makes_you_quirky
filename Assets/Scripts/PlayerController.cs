@@ -61,6 +61,7 @@ public class PlayerController : MonoBehaviour
 
     private bool IsMoving()
     {
+        Debug.Log(_horizontalMovement);
         return _horizontalMovement > 0.1f || _horizontalMovement < 0.1f;
     }
     
