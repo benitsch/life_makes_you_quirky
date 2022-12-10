@@ -420,12 +420,16 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1438565936, guid: 07e80a6712897c14db8cd6826b0454a4, type: 3}
+      propertyPath: InitialModule.maxNumParticles
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 1438565936, guid: 07e80a6712897c14db8cd6826b0454a4, type: 3}
       propertyPath: InitialModule.startSize.scalar
-      value: 0.2
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 1438565936, guid: 07e80a6712897c14db8cd6826b0454a4, type: 3}
       propertyPath: InitialModule.startSize.minScalar
-      value: 0.1
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 1438565936, guid: 07e80a6712897c14db8cd6826b0454a4, type: 3}
       propertyPath: ShapeModule.randomDirectionAmount
@@ -469,15 +473,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1438565936, guid: 07e80a6712897c14db8cd6826b0454a4, type: 3}
       propertyPath: ColorModule.gradient.maxGradient.key0.b
-      value: 0.8352941
+      value: 0.5176471
       objectReference: {fileID: 0}
     - target: {fileID: 1438565936, guid: 07e80a6712897c14db8cd6826b0454a4, type: 3}
       propertyPath: ColorModule.gradient.maxGradient.key0.g
-      value: 0.88235295
+      value: 0.40784317
       objectReference: {fileID: 0}
     - target: {fileID: 1438565936, guid: 07e80a6712897c14db8cd6826b0454a4, type: 3}
       propertyPath: ColorModule.gradient.maxGradient.key0.r
-      value: 0.39215687
+      value: 0.20392159
       objectReference: {fileID: 0}
     - target: {fileID: 1438565936, guid: 07e80a6712897c14db8cd6826b0454a4, type: 3}
       propertyPath: ColorModule.gradient.maxGradient.key1.b
@@ -647,12 +651,16 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1438565936, guid: 07e80a6712897c14db8cd6826b0454a4, type: 3}
+      propertyPath: InitialModule.maxNumParticles
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 1438565936, guid: 07e80a6712897c14db8cd6826b0454a4, type: 3}
       propertyPath: InitialModule.startSize.scalar
-      value: 0.2
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 1438565936, guid: 07e80a6712897c14db8cd6826b0454a4, type: 3}
       propertyPath: InitialModule.startSize.minScalar
-      value: 0.1
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 1438565936, guid: 07e80a6712897c14db8cd6826b0454a4, type: 3}
       propertyPath: ShapeModule.randomDirectionAmount
