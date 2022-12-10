@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
 
     private AudioSource _audioSource;
     [SerializeField] private AudioClip[] _barks;
+    [SerializeField] private AudioClip _annoyingBackgroundMusic;
 
     [SerializeField] private ParticleSystem _left_particleSystem;
     [SerializeField] private ParticleSystem _right_particleSystem;
@@ -128,5 +129,11 @@ public class PlayerController : MonoBehaviour
             int idx = Random.Range(0, _barks.Length);
             _audioSource.PlayOneShot(_barks[idx]);
         }
+    }
+
+    public void PlayAnnoyingMusic()
+    {   
+        _audioSource.clip = _annoyingBackgroundMusic;
+        _audioSource.Play();
     }
 }
