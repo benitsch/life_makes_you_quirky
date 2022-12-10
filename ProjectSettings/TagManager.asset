@@ -42,6 +42,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: UI
+    uniqueID: 1965480977
+    locked: 0
   - name: Collectibles
     uniqueID: 1979624115
     locked: 0
