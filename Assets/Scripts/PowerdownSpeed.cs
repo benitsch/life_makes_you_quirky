@@ -57,7 +57,7 @@ public class PowerdownSpeed : MonoBehaviour
         if (_pickupButtonPressed)
         {
             _playerController.Speed = (_playerController.Speed * _slowerPercentage);
-            _playerController.Hearts += _heartValue;
+            _playerController.AddHearts(_heartValue);
             Destroy(gameObject);
         }
     }

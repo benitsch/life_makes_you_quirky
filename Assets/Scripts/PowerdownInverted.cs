@@ -52,7 +52,7 @@ public class PowerdownInverted : MonoBehaviour
         if (_pickupButtonPressed)
         {
             _playerController.InvertedController = (_playerController.InvertedController == 1) ? -1 : 1;
-            _playerController.Hearts += _heartValue;
+            _playerController.AddHearts(_heartValue);
             Destroy(gameObject);
         }
     }

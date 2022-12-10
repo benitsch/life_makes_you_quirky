@@ -52,7 +52,7 @@ public class PowerdownAnnoyingMusic : MonoBehaviour
         if (_pickupButtonPressed)
         {
             _playerController.PlayAnnoyingMusic();
-            _playerController.Hearts += _heartValue;
+            _playerController.AddHearts(_heartValue);
             Destroy(gameObject);
         }
     }

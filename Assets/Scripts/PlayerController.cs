@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(AudioSource))]
 public class PlayerController : MonoBehaviour
@@ -21,7 +20,8 @@ public class PlayerController : MonoBehaviour
     public Transform GroundCheck;
     public LayerMask GroundLayer;
 
-    public int Hearts;
+    private int _hearts;
+    [SerializeField] private TextMeshProUGUI _heartsText;
 
     private AudioSource _audioSource;
     [SerializeField] private AudioClip[] _barks;
@@ -37,7 +37,6 @@ public class PlayerController : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _audioSource = GetComponent<AudioSource>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        Hearts = 0;
         IsAlwaysJumpingActive = false;
     }
 
@@ -157,5 +156,11 @@ public class PlayerController : MonoBehaviour
     {   
         _audioSource.clip = _annoyingBackgroundMusic;
         _audioSource.Play();
+    }
+
+    public void AddHearts(int heartsAmount)
+    {
+        int amount = _hearts + heartsAmount;
+        _heartsText.SetText($"Hearts: {amount}");
     }
 }

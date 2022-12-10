@@ -52,7 +52,7 @@ public class PowerdownDark : MonoBehaviour
         if (_pickupButtonPressed)
         {
             //TODO: player effect
-            _playerController.Hearts += _heartValue;
+            _playerController.AddHearts(_heartValue);
             Destroy(gameObject);
         }
     }

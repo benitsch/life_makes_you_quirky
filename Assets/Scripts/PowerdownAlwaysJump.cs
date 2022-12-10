@@ -52,7 +52,7 @@ public class PowerdownAlwaysJump : MonoBehaviour
         if (_pickupButtonPressed)
         {
             _playerController.IsAlwaysJumpingActive = !_playerController.IsAlwaysJumpingActive;
-            _playerController.Hearts += _heartValue;
+            _playerController.AddHearts(_heartValue);
             Destroy(gameObject);
         }
     }
