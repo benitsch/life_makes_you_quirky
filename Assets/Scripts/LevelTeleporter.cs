@@ -5,10 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class LevelTeleporter : MonoBehaviour
 {
-    [SerializeField] int nextSceneIndex;
+    [SerializeField] string nextSceneName;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        SceneManager.LoadScene(nextSceneIndex);
+        SceneManager.LoadScene(nextSceneName);
     }
 }

@@ -3,22 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class PowerdownSpeed : MonoBehaviour
+public class PowerdownDark : MonoBehaviour
 {
-    [SerializeField] private int _heartValue = 2;
-    [SerializeField] private string _text = "Speed";
+    [SerializeField] private int _heartValue = 1;
+    [SerializeField] private string _text = "Dark";
     private bool _pickupButtonPressed; // 'E'
     private PlayerController _playerController;
     //[SerializeField] private TextMeshProUGUI _textMesh; // reference
     private TextMeshProUGUI _textMesh; // reference
 
-    [SerializeField] private float _slowerPercentage = 0.5F;
-
     // Start is called before the first frame update
     void Start()
     {
-        //_textMesh = GameObject.FindObjectOfType<TextMeshProUGUI>();
-        //_textMesh = ParentGameObject.transform.getChild(1);
         _textMesh = gameObject.GetComponentInChildren(typeof(TextMeshProUGUI)) as TextMeshProUGUI;
         _playerController = GameObject.Find("Player").GetComponent<PlayerController>();
         setText("");
@@ -30,7 +26,7 @@ public class PowerdownSpeed : MonoBehaviour
         _pickupButtonPressed = Input.GetKey(KeyCode.E);
     }
 
-    // Player Collision CODE
+     // Player Collision CODE
 
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -49,14 +45,13 @@ public class PowerdownSpeed : MonoBehaviour
         //Debug.Log("Hello");
         if (!isPlayer(other.gameObject.name)) {return;}
         applyPowerdown();
-
     }
 
     public void applyPowerdown()
     {
         if (_pickupButtonPressed)
         {
-            _playerController.Speed = (_playerController.Speed * _slowerPercentage);
+            //TODO: player effect
             _playerController.Hearts += _heartValue;
             Destroy(gameObject);
         }
