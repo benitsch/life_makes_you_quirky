@@ -5,7 +5,7 @@ using UnityEngine;
 public class HeartsTutorial : MonoBehaviour
 {
     [SerializeField] private float _destroyDelay = 8.0f;
-
+    [SerializeField] private GameObject _canvasTutorial;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,6 +17,7 @@ public class HeartsTutorial : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            _canvasTutorial.SetActive(false);
             Destroy(gameObject);
         }
     }
@@ -25,7 +26,7 @@ public class HeartsTutorial : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            gameObject.SetActive(true);
+            _canvasTutorial.SetActive(true);
             Destroy(gameObject, _destroyDelay);
         }
     }
