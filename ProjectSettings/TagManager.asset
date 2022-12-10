@@ -14,8 +14,8 @@ TagManager:
   - UI
   - Player
   - Floor
-  - 
-  - 
+  - Collectibles
+  - CollectiblesText
   - 
   - 
   - 
@@ -41,4 +41,16 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Collectibles
+    uniqueID: 1979624115
+    locked: 0
+  - name: Player
+    uniqueID: 2612340013
+    locked: 0
+  - name: Floor
+    uniqueID: 1562085089
+    locked: 0
+  - name: CollectiblesText
+    uniqueID: 3735504927
     locked: 0
