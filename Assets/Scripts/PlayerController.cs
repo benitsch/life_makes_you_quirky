@@ -29,12 +29,14 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private ParticleSystem _left_particleSystem;
     [SerializeField] private ParticleSystem _right_particleSystem;
+
+    private SpriteRenderer _spriteRenderer;
     
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
         _audioSource = GetComponent<AudioSource>();
-        //_particleSystem = GetComponent<ParticleSystem>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
         Hearts = 0;
         IsAlwaysJumpingActive = false;
     }
@@ -64,6 +66,7 @@ public class PlayerController : MonoBehaviour
     private void GetInput()
     {
         _horizontalMovement = Input.GetAxis("Horizontal");
+        FlipSprite();
         _currentVelocity = _rb.velocity;
 
         if (Input.GetButton("Jump") || IsAlwaysJumpingActive)
@@ -72,6 +75,17 @@ public class PlayerController : MonoBehaviour
         } else
         {
             _isJumping = false;
+        }
+    }
+
+    private void FlipSprite()
+    {
+        if (_horizontalMovement > 0)
+        {
+            _spriteRenderer.flipX = false;
+        } else if (_horizontalMovement < 0)
+        {
+            _spriteRenderer.flipX = true;
         }
     }
 
@@ -96,7 +110,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            //_left_particleSystem.Stop();
+            _left_particleSystem.Stop();
             _right_particleSystem.Stop();
         }
     }
