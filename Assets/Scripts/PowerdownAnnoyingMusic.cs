@@ -51,7 +51,7 @@ public class PowerdownAnnoyingMusic : MonoBehaviour
     {
         if (_pickupButtonPressed)
         {
-            //TODO: call _playerController.annoyingMusic();
+            _playerController.PlayAnnoyingMusic();
             _playerController.Hearts += _heartValue;
             Destroy(gameObject);
         }
