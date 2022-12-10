@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(AudioSource))]
 public class PlayerController : MonoBehaviour
@@ -21,21 +20,25 @@ public class PlayerController : MonoBehaviour
     public Transform GroundCheck;
     public LayerMask GroundLayer;
 
-    public int Hearts;
+    private int _hearts;
+    [SerializeField] private TextMeshProUGUI _heartsText;
 
     private AudioSource _audioSource;
+    private AudioClip _currentBark;
+    private float _barkStartTime;
     [SerializeField] private AudioClip[] _barks;
     [SerializeField] private AudioClip _annoyingBackgroundMusic;
 
     [SerializeField] private ParticleSystem _left_particleSystem;
     [SerializeField] private ParticleSystem _right_particleSystem;
+
+    private SpriteRenderer _spriteRenderer;
     
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
         _audioSource = GetComponent<AudioSource>();
-        //_particleSystem = GetComponent<ParticleSystem>();
-        Hearts = 0;
+        _spriteRenderer = GetComponent<SpriteRenderer>();
         IsAlwaysJumpingActive = false;
     }
 
@@ -64,6 +67,7 @@ public class PlayerController : MonoBehaviour
     private void GetInput()
     {
         _horizontalMovement = Input.GetAxis("Horizontal");
+        FlipSprite();
         _currentVelocity = _rb.velocity;
 
         if (Input.GetButton("Jump") || IsAlwaysJumpingActive)
@@ -72,6 +76,18 @@ public class PlayerController : MonoBehaviour
         } else
         {
             _isJumping = false;
+        }
+    }
+
+    private void FlipSprite()
+    {
+        if ((_horizontalMovement > 0.1f && InvertedController == 1) || (_horizontalMovement < -0.1f && InvertedController == -1))
+        {
+            _spriteRenderer.flipX = false;
+        }
+        else if ((_horizontalMovement > 0.1f && InvertedController == -1) || (_horizontalMovement < -0.1f && InvertedController == 1))
+        {
+            _spriteRenderer.flipX = true;
         }
     }
 
@@ -86,13 +102,21 @@ public class PlayerController : MonoBehaviour
 
     private void PlayDirtParticle()
     {
-        if ((_horizontalMovement > 0.1f && InvertedController == 1) || (_horizontalMovement < -0.1f && InvertedController == -1))
+        if (IsOnGround())
         {
-            _left_particleSystem.Play();
-        }
-        else if((_horizontalMovement > 0.1f && InvertedController == -1) || (_horizontalMovement < -0.1f && InvertedController == 1))
-        {
-            _right_particleSystem.Play();
+            if ((_horizontalMovement > 0.1f && InvertedController == 1) || (_horizontalMovement < -0.1f && InvertedController == -1))
+            {
+                _left_particleSystem.Play();
+            }
+            else if((_horizontalMovement > 0.1f && InvertedController == -1) || (_horizontalMovement < -0.1f && InvertedController == 1))
+            {
+                _right_particleSystem.Play();
+            }
+            else
+            {
+                _left_particleSystem.Stop();
+                _right_particleSystem.Stop();
+            }
         }
         else
         {
@@ -124,16 +148,35 @@ public class PlayerController : MonoBehaviour
 
     private void PlayBarkSound()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R) && !IsBarkClipPlaying())
         {
             int idx = Random.Range(0, _barks.Length);
-            _audioSource.PlayOneShot(_barks[idx]);
+            _currentBark = _barks[idx];
+            _barkStartTime = Time.time;
+            _audioSource.PlayOneShot(_currentBark);
+
         }
+    }
+
+    public bool IsBarkClipPlaying()
+    {
+        if (_barkStartTime != 0 && _currentBark != null)
+        {
+            return !((Time.time - _barkStartTime) >= _currentBark.length);
+        }
+
+        return false;
     }
 
     public void PlayAnnoyingMusic()
     {   
         _audioSource.clip = _annoyingBackgroundMusic;
         _audioSource.Play();
+    }
+
+    public void AddHearts(int heartsAmount)
+    {
+        int amount = _hearts + heartsAmount;
+        _heartsText.SetText($"Hearts: {amount}");
     }
 }

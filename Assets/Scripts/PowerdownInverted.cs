@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 
 public class PowerdownInverted : MonoBehaviour
@@ -9,51 +7,82 @@ public class PowerdownInverted : MonoBehaviour
     [SerializeField] private string _text = "Inverted";
     private bool _pickupButtonPressed; // 'E'
     private PlayerController _playerController;
-    //[SerializeField] private TextMeshProUGUI _textMesh; // reference
-    private TextMeshProUGUI _textMesh; // reference
+    private TextMeshProUGUI _textMesh;
 
-    // Start is called before the first frame update
+    // mesh animation
+    private Mesh _mesh;
+    private Vector3[] _meshVertices;
+
+    [SerializeField] private ParticleSystem _lightParticleSystem;
+    [SerializeField] private ParticleSystem _heartParticleSystem;
+
+    private bool _isPlayerHere = false;
+    private bool _isPowerdownTaken = false;
+
+    private AudioSource _audioSource;
+
     void Start()
     {
+        _text += $"\n{_heartValue} ♥";
         _textMesh = gameObject.GetComponentInChildren(typeof(TextMeshProUGUI)) as TextMeshProUGUI;
         _playerController = GameObject.Find("Player").GetComponent<PlayerController>();
         setText("");
+
+        _lightParticleSystem = _lightParticleSystem.GetComponent<ParticleSystem>();
+        _heartParticleSystem = _heartParticleSystem.GetComponent<ParticleSystem>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        _pickupButtonPressed = Input.GetKey(KeyCode.E);
+        _textMesh.ForceMeshUpdate();
+        updateTextmesh();
+        applyPowerdown();
     }
 
-     // Player Collision CODE
 
-    void OnTriggerEnter2D(Collider2D other)
+    bool isPlayer(string nameString)
     {
-        //Debug.Log(other.name);
-        if (!isPlayer(other.gameObject.name)) {return;}
-        setText(_text);
-
-    }
-
-    bool isPlayer(string nameString) {
         return (nameString == "Player");
     }
 
-    void OnTriggerStay2D(Collider2D other)
+    void OnTriggerEnter2D(Collider2D other)
     {
-        //Debug.Log("Hello");
-        if (!isPlayer(other.gameObject.name)) {return;}
-        applyPowerdown();
+        if (!isPlayer(other.gameObject.name)) { return; }
+        setText(_text);
+        _isPlayerHere = true;
+
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (!isPlayer(other.gameObject.name)) { return; }
+        setText("");
+        _isPlayerHere = false;
     }
 
     public void applyPowerdown()
     {
-        if (_pickupButtonPressed)
+        if (_isPowerdownTaken && _heartParticleSystem.particleCount == 0)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        if (!_isPlayerHere) return;
+
+        _pickupButtonPressed = Input.GetKey(KeyCode.E);
+
+        if (_pickupButtonPressed && !_isPowerdownTaken)
         {
             _playerController.InvertedController = (_playerController.InvertedController == 1) ? -1 : 1;
-            _playerController.Hearts += _heartValue;
-            Destroy(gameObject);
+            _playerController.AddHearts(_heartValue);
+            _lightParticleSystem.Emit(1);
+            _lightParticleSystem.Play();
+            _heartParticleSystem.Emit(1);
+            _heartParticleSystem.Play();
+            _audioSource.Play();
+            _isPowerdownTaken = true;
         }
     }
 
@@ -62,11 +91,23 @@ public class PowerdownInverted : MonoBehaviour
         _textMesh.SetText(txt);
     }
 
-    void OnTriggerExit2D(Collider2D other)
+    void updateTextmesh()
     {
-        //Debug.Log(other.name);
-        if (!isPlayer(other.gameObject.name)) {return;}
-        setText("");
+        if (_textMesh.text == "") { return; }
+        _mesh = _textMesh.mesh;
+        _meshVertices = _mesh.vertices;
+        string s = _textMesh.text;
+        for (int i = 0; i < _meshVertices.Length; i++)
+        {
+            Vector3 offset = Wobble(Time.time + i);
+            _meshVertices[i] = _meshVertices[i] + offset;
+        }
+        _mesh.vertices = _meshVertices;
+        _textMesh.canvasRenderer.SetMesh(_mesh);
     }
 
+    Vector2 Wobble(float time)
+    {
+        return new Vector2(Mathf.Sin(time * 3.3f), Mathf.Cos(time * 2.5f));
+    }
 }
