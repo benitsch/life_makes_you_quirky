@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour
         if (_horizontalMovement > 0)
         {
             _spriteRenderer.flipX = false;
-        } else if (_horizontalMovement < 0)
+        } else if (_horizontalMovement < 0 || InvertedController == -1)
         {
             _spriteRenderer.flipX = true;
         }
