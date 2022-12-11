@@ -9,7 +9,7 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Tree
   - Water
   - UI
   - Player
@@ -45,8 +45,14 @@ TagManager:
   - name: UI
     uniqueID: 1965480977
     locked: 0
+  - name: Tree
+    uniqueID: 1216411281
+    locked: 0
   - name: Collectibles
     uniqueID: 1979624115
+    locked: 0
+  - name: Platform
+    uniqueID: 2525652471
     locked: 0
   - name: Player
     uniqueID: 2612340013
