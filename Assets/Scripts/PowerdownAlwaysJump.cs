@@ -3,8 +3,8 @@ using TMPro;
 
 public class PowerdownAlwaysJump : MonoBehaviour
 {
-    [SerializeField] private int _heartValue = 10;
-    [SerializeField] private string _text = "Always Jump";
+    private int _heartValue = 10;
+    private string _text = "Always Jump";
     private bool _pickupButtonPressed; // 'E'
     private PlayerController _playerController;
     private TextMeshProUGUI _textMesh;

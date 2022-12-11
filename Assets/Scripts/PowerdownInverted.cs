@@ -3,8 +3,8 @@ using TMPro;
 
 public class PowerdownInverted : MonoBehaviour
 {
-    [SerializeField] private int _heartValue = 5;
-    [SerializeField] private string _text = "Inverted";
+    private int _heartValue = 5;
+    private string _text = "Inverted";
     private bool _pickupButtonPressed; // 'E'
     private PlayerController _playerController;
     private TextMeshProUGUI _textMesh;

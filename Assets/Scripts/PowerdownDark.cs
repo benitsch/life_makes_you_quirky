@@ -3,8 +3,8 @@ using TMPro;
 
 public class PowerdownDark : MonoBehaviour
 {
-    [SerializeField] private int _heartValue = 1;
-    [SerializeField] private string _text = "Dark";
+    private int _heartValue = 1;
+    private string _text = "Dark";
     private bool _pickupButtonPressed; // 'E'
     private PlayerController _playerController;
     private TextMeshProUGUI _textMesh;
