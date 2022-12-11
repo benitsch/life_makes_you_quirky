@@ -37,6 +37,11 @@ public class PlayerController : MonoBehaviour
     private SpriteRenderer _spriteRenderer;
 
     private Animator _animator;
+
+    // volumes
+    private float _runSoundVolume = 2.0f;
+    private float _jumpSoundVolume = 2.0f;
+    private float _barkSoundVolume = 2.0f;
     
     private void Awake()
     {
@@ -183,14 +188,14 @@ public class PlayerController : MonoBehaviour
             int idx = Random.Range(0, _barks.Length);
             _currentBark = _barks[idx];
             _barkStartTime = Time.time;
-            _audioSource.PlayOneShot(_currentBark);
+            _audioSource.PlayOneShot(_currentBark, _barkSoundVolume);
 
         }
     }
 
     private void PlayJumpSound()
     {
-        _audioSource.PlayOneShot(_jumpSound);
+        _audioSource.PlayOneShot(_jumpSound, _jumpSoundVolume);
     }
 
     public bool IsBarkClipPlaying()
