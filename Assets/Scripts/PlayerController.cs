@@ -33,12 +33,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private ParticleSystem _right_particleSystem;
 
     private SpriteRenderer _spriteRenderer;
+
+    private Animator _animator;
     
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
         _audioSource = GetComponent<AudioSource>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        _animator = GetComponent<Animator>();
         IsAlwaysJumpingActive = false;
     }
 
@@ -61,13 +64,13 @@ public class PlayerController : MonoBehaviour
 
     private bool IsMoving()
     {
-        Debug.Log(_horizontalMovement);
         return _horizontalMovement > 0.1f || _horizontalMovement < 0.1f;
     }
     
     private void GetInput()
     {
         _horizontalMovement = Input.GetAxis("Horizontal");
+        _animator.SetFloat("Speed", Mathf.Abs(_horizontalMovement));
         FlipSprite();
         _currentVelocity = _rb.velocity;
 
