@@ -5,8 +5,8 @@ using TMPro;
 
 public class PowerdownSpeed : MonoBehaviour
 {
-    [SerializeField] private int _heartValue = 2;
-    [SerializeField] private string _text = "Slow";
+    private int _heartValue = 2;
+    private string _text = "Slow";
     private bool _pickupButtonPressed; // 'E'
     private PlayerController _playerController;
     private TextMeshProUGUI _textMesh;

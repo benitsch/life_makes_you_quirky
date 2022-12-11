@@ -6,8 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class CatLove : MonoBehaviour
 {
-    [SerializeField] private int _heartCost = 50;
-    [SerializeField] private string _text = "Love me";
+    private int _heartCost = 50;
+    private string _text = "Love me";
     private bool _pickupButtonPressed; // 'E'
     private PlayerController _playerController;
     private TextMeshProUGUI _textMesh;
