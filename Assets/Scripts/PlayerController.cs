@@ -27,6 +27,8 @@ public class PlayerController : MonoBehaviour
     private AudioClip _currentBark;
     private float _barkStartTime;
     [SerializeField] private AudioClip[] _barks;
+    [SerializeField] private AudioClip _jumpSound;
+    [SerializeField] private AudioClip _runSound;
     [SerializeField] private AudioClip _annoyingBackgroundMusic;
 
     [SerializeField] private ParticleSystem _left_particleSystem;
@@ -135,6 +137,7 @@ public class PlayerController : MonoBehaviour
         if (_isJumping && IsOnGround())
         {
             _rb.AddForce(Vector2.up * JumpForce, ForceMode2D.Force);
+            PlayJumpSound();
             _isJumping = false;
         }
         // For smooth jump
@@ -161,6 +164,11 @@ public class PlayerController : MonoBehaviour
             _audioSource.PlayOneShot(_currentBark);
 
         }
+    }
+
+    private void PlayJumpSound()
+    {
+        _audioSource.PlayOneShot(_jumpSound);
     }
 
     public bool IsBarkClipPlaying()
