@@ -138,15 +138,37 @@ public class PlayerController : MonoBehaviour
         {
             _rb.AddForce(Vector2.up * JumpForce, ForceMode2D.Force);
             PlayJumpSound();
+            _animator.SetBool("IsJumpingUp", true);
             _isJumping = false;
         }
+        if (IsOnGround()){
+            _animator.SetBool("IsJumpingUp", false);
+            _animator.SetBool("IsFalling", false);
+        }
+
         // For smooth jump
-        if (_rb.velocity.y < 0)
+        if (_rb.velocity.y <= 0)
         {
             _rb.velocity += Vector2.up * Physics2D.gravity.y * (_fallMultiplier - 1) * Time.fixedDeltaTime;
+            if (!IsOnGround())
+            {
+                _animator.SetBool("IsJumpingUp", false);
+                _animator.SetBool("IsFalling", true);
+            }
+            
         } else if (_rb.velocity.y > 0)
         {
             _rb.velocity += Vector2.up * Physics2D.gravity.y * (_lowJumpMultiplier - 1) * Time.fixedDeltaTime;
+            if (!IsOnGround())
+            {
+                _animator.SetBool("IsJumpingUp", true);
+                _animator.SetBool("IsFalling", false);
+            }
+            
+        } else
+        {
+            _animator.SetBool("IsJumpingUp", false);
+            _animator.SetBool("IsFalling", false);
         }
     }
     private bool IsOnGround()
