@@ -47,7 +47,8 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-
+        _hearts = PlayerPrefs.HasKey("Hearts") ? PlayerPrefs.GetInt("Hearts") : 0;
+        SetHeartsText();
     }
 
     void Update()
@@ -180,7 +181,25 @@ public class PlayerController : MonoBehaviour
 
     public void AddHearts(int heartsAmount)
     {
-        int amount = _hearts + heartsAmount;
-        _heartsText.SetText($"Hearts: {amount}");
+        _hearts += heartsAmount;
+        SetHeartsText();
+        AddHeartsToPlayerPrefs();
+    }
+
+    public void SetHeartsText()
+    {
+        _heartsText.SetText($"Hearts: {_hearts}");
+    }
+
+    private void AddHeartsToPlayerPrefs()
+    {
+        if (PlayerPrefs.HasKey("Hearts"))
+        {
+            PlayerPrefs.SetInt("Hearts", PlayerPrefs.GetInt("Hearts") + _hearts);
+        }
+        else
+        {
+            PlayerPrefs.SetInt("Hearts", _hearts);
+        }
     }
 }

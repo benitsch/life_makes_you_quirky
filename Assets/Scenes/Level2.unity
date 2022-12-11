@@ -1030,7 +1030,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1059135008393772408, guid: a8efb94790deec64e896a9fdf28555a5, type: 3}
       propertyPath: m_Name
-      value: IceDoor001
+      value: Teleporter
       objectReference: {fileID: 0}
     - target: {fileID: 5606375261150108029, guid: a8efb94790deec64e896a9fdf28555a5, type: 3}
       propertyPath: m_RootOrder
