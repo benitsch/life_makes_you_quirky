@@ -31,6 +31,7 @@ public class PowerdownInverted : MonoBehaviour
         _lightParticleSystem = _lightParticleSystem.GetComponent<ParticleSystem>();
         _heartParticleSystem = _heartParticleSystem.GetComponent<ParticleSystem>();
         _audioSource = GetComponent<AudioSource>();
+        _audioSource.volume = 0.5f;
     }
 
     void Update()
