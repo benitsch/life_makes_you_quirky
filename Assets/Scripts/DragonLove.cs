@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
-public class PowerdownSpeed : MonoBehaviour
+public class DragonLove : MonoBehaviour
 {
-    [SerializeField] private int _heartValue = 2;
-    [SerializeField] private string _text = "Slow";
+    [SerializeField] private int _heartCost = 100;
+    [SerializeField] private string _text = "Love me";
     private bool _pickupButtonPressed; // 'E'
     private PlayerController _playerController;
     private TextMeshProUGUI _textMesh;
-
-    [SerializeField] private float _slowerPercentage = 0.5F;
 
     // mesh animation
     private Mesh _mesh;
@@ -20,14 +19,14 @@ public class PowerdownSpeed : MonoBehaviour
     [SerializeField] private ParticleSystem _lightParticleSystem;
     [SerializeField] private ParticleSystem _heartParticleSystem;
 
-    private bool _isPlayerHere = false;
-    private bool _isPowerdownTaken = false;
+    private bool _isPlayerHere = false;    
+    private bool _isLoveTaken = false;
 
     private AudioSource _audioSource;
 
     void Start()
     {
-        _text += $"\n{_heartValue} ♥";
+        _text += $"\n{_heartCost} ♥";
         _textMesh = gameObject.GetComponentInChildren(typeof(TextMeshProUGUI)) as TextMeshProUGUI;
         _playerController = GameObject.Find("Player").GetComponent<PlayerController>();
         setText("");
@@ -42,7 +41,7 @@ public class PowerdownSpeed : MonoBehaviour
     {
         _textMesh.ForceMeshUpdate();
         updateTextmesh();
-        applyPowerdown();
+        chooseLove();
     }
 
 
@@ -66,11 +65,12 @@ public class PowerdownSpeed : MonoBehaviour
         _isPlayerHere = false;
     }
 
-    public void applyPowerdown()
+    public void chooseLove()
     {
-        if (_isPowerdownTaken && _heartParticleSystem.particleCount == 0)
+        if (_isLoveTaken && _heartParticleSystem.particleCount == 0)
         {
             Destroy(gameObject);
+            SceneManager.LoadScene("EndScene");
             return;
         }
 
@@ -78,16 +78,18 @@ public class PowerdownSpeed : MonoBehaviour
 
         _pickupButtonPressed = Input.GetKey(KeyCode.E);
 
-        if (_pickupButtonPressed && !_isPowerdownTaken)
+        int playerHearts = PlayerPrefs.HasKey("Hearts") ? PlayerPrefs.GetInt("Hearts") : 0;
+
+        if (_pickupButtonPressed && !_isLoveTaken && playerHearts >= _heartCost)
         {
-            _playerController.Speed = (_playerController.Speed * _slowerPercentage);
-            _playerController.AddHearts(_heartValue);
+
+            //TODO: effect of picking character
             _lightParticleSystem.Emit(1);
             _lightParticleSystem.Play();
             _heartParticleSystem.Emit(1);
             _heartParticleSystem.Play();
             _audioSource.Play();
-            _isPowerdownTaken = true;
+            _isLoveTaken = true;
         }
     }
 
