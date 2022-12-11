@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
     private float _barkStartTime;
     [SerializeField] private AudioClip[] _barks;
     [SerializeField] private AudioClip _jumpSound;
-    [SerializeField] private AudioClip _runSound;
+    //[SerializeField] private AudioClip _runSound;
     [SerializeField] private AudioClip _annoyingBackgroundMusic;
 
     [SerializeField] private ParticleSystem _left_particleSystem;
@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
     private Animator _animator;
 
     // volumes
-    private float _runSoundVolume = 2.0f;
+    //private float _runSoundVolume = 2.0f;
     private float _jumpSoundVolume = 2.0f;
     private float _barkSoundVolume = 2.0f;
     
@@ -143,37 +143,16 @@ public class PlayerController : MonoBehaviour
         {
             _rb.AddForce(Vector2.up * JumpForce, ForceMode2D.Force);
             PlayJumpSound();
-            _animator.SetBool("IsJumpingUp", true);
             _isJumping = false;
-        }
-        if (IsOnGround()){
-            _animator.SetBool("IsJumpingUp", false);
-            _animator.SetBool("IsFalling", false);
         }
 
         // For smooth jump
         if (_rb.velocity.y <= 0)
         {
             _rb.velocity += Vector2.up * Physics2D.gravity.y * (_fallMultiplier - 1) * Time.fixedDeltaTime;
-            if (!IsOnGround())
-            {
-                _animator.SetBool("IsJumpingUp", false);
-                _animator.SetBool("IsFalling", true);
-            }
-            
         } else if (_rb.velocity.y > 0)
         {
             _rb.velocity += Vector2.up * Physics2D.gravity.y * (_lowJumpMultiplier - 1) * Time.fixedDeltaTime;
-            if (!IsOnGround())
-            {
-                _animator.SetBool("IsJumpingUp", true);
-                _animator.SetBool("IsFalling", false);
-            }
-            
-        } else
-        {
-            _animator.SetBool("IsJumpingUp", false);
-            _animator.SetBool("IsFalling", false);
         }
     }
     private bool IsOnGround()
