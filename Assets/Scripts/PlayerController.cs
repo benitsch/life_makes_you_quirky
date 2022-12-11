@@ -188,14 +188,14 @@ public class PlayerController : MonoBehaviour
 
     public void SetHeartsText()
     {
-        _heartsText.SetText($"Hearts: {_hearts}");
+        _heartsText.SetText($"{_hearts}");
     }
 
     private void AddHeartsToPlayerPrefs()
     {
         if (PlayerPrefs.HasKey("Hearts"))
         {
-            PlayerPrefs.SetInt("Hearts", PlayerPrefs.GetInt("Hearts") + _hearts);
+            PlayerPrefs.SetInt("Hearts", _hearts);
         }
         else
         {
