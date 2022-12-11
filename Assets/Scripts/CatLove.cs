@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class CatLove : MonoBehaviour
 {
-    private int _heartCost = 50;
+    private int _heartCost = 25;
     private string _text = "Love me";
     private bool _pickupButtonPressed; // 'E'
     private PlayerController _playerController;
